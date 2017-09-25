@@ -94,9 +94,7 @@ def download(directory, username, password, size, recent, \
                         "Skipping %s, only downloading photos." % photo.filename)
                     continue
 
-                created_date = photo.created
-
-                date_path = '{:%Y/%m/%d}'.format(created_date)
+                date_path = ''
                 download_dir = '/'.join((directory, date_path))
 
                 if not os.path.exists(download_dir):
@@ -135,8 +133,7 @@ def download(directory, username, password, size, recent, \
         recently_deleted = icloud.photos.albums['Recently Deleted']
 
         for media in recently_deleted:
-            created_date = media.created
-            date_path = '{:%Y/%m/%d}'.format(created_date)
+            date_path = ''
             download_dir = '/'.join((directory, date_path))
 
             filename = filename_with_size(media, size)
@@ -151,7 +148,7 @@ def authenticate(username, password):
     print("Signing in...")
     icloud = pyicloud.PyiCloudService(username, password)
 
-    if icloud.requires_2fa:
+    if icloud.requires_2sa:
         print("Two-factor authentication required. Your trusted devices are:")
 
         devices = icloud.trusted_devices
